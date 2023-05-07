@@ -1,0 +1,180 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<iostream>
+using namespace std;
+typedef struct treenode
+{
+	char data;
+	treenode *lchild,*rchild;
+}node,*tree;
+void create(tree &t)
+{
+	char b;
+	cin>>b;
+	if(b=='*')
+		t=NULL;
+	else
+	{
+	   t=(tree)malloc(sizeof(node));
+	   t->data=b;
+	   create(t->lchild);
+	   create(t->rchild);
+	}
+}
+//创建二叉树具体函数
+void zx(tree t)
+{
+	if(t==NULL)
+		return ;
+	else
+	{
+		zx(t->lchild);
+		cout<<t->data;
+		zx(t->rchild);
+	}
+}
+//中序遍历二叉排序树
+void qx(tree t)
+{
+	if(t==NULL)
+		return ;
+	else
+	{
+		cout<<t->data;
+		qx(t->lchild);
+		qx(t->rchild);
+	}
+}
+//前序遍历二叉排序树
+void fr(tree& t)
+{
+	if(t==NULL)
+		return;
+	else
+	{
+		fr(t->lchild);
+		fr(t->rchild);
+	}
+	if(t->lchild==NULL&&t->rchild==NULL)
+		free(t);
+}
+//释放删除的二叉树的空间
+int c=0;
+void shanchu(tree& T,char x)
+{
+	if(T==NULL)
+		return;
+	else if(T->data==x)
+	{
+		fr(T);
+		T=NULL;
+		c=1;
+	}
+	else
+	{
+		
+		shanchu(T->lchild,x);
+		shanchu(T->rchild,x);
+	}
+}
+//查询结点操作函数
+void print(tree t)
+{
+	if(t==NULL)
+	{
+		cout<<"二叉树此时为空"<<endl;
+		return;
+	}
+	if(c==0)
+	{
+		cout<<"二叉排序树中不存在该结点"<<endl;
+	}
+	else
+	{
+		cout<<"删除结点元素后中序遍历输出为:";
+		zx(t);
+		cout<<endl;
+	}
+}
+void chaxun(tree& T)
+{
+	cout<<"请输入要删除的结点元素:";
+	char a;
+	cin>>a;
+	shanchu(T,a);
+	print(T);
+	c=0;
+	system("pause");
+}
+//删除结点函数
+void xianshi()
+{
+	cout<<"____________________________________"<<endl;
+	cout<<"|*********二叉排序树的实现*********|"<<endl;
+	cout<<"|*********1.建立一个二叉树*********|"<<endl;
+	cout<<"|*********2.中序遍历二叉树*********|"<<endl;
+	cout<<"|*********3.前序遍历二叉树*********|"<<endl;
+	cout<<"|*********4.删除二叉树结点*********|"<<endl;
+	cout<<"|*********0.结  束  程  序*********|"<<endl;
+	cout<<"|__________________________________|"<<endl;
+	cout<<"请输入您要进行的操作对应的序号:";
+}
+//初始显示界面
+void ct(tree& T)
+{
+	cout<<"请输入一个二叉树，当输入为空时输入*"<<endl;
+	create(T);
+}
+//创建二叉树函数
+void zhongxu(tree T)
+{
+	if(T==NULL)
+	{
+		cout<<"二叉树此时为空";
+	}
+	else
+	{
+	cout<<"中序遍历结果为:";
+	zx(T);
+	cout<<endl;
+	}
+	system("pause");
+}
+//中序遍历输出函数
+void qianxu(tree T)
+{
+	if(T==NULL)
+	{
+		cout<<"二叉树此时为空";
+	}
+	else
+	{
+	cout<<"前序遍历结果为:";
+	qx(T);
+	cout<<endl;
+	}
+	system("pause");
+}
+int main()
+{
+	tree T;
+	xianshi();
+	int a;
+	cin>>a;
+	while(a!=0)
+	{
+	switch(a)
+	{
+	case 1:ct(T);break;
+	case 2:zhongxu(T);break; 
+	case 3:qianxu(T);break;
+	case 4:chaxun(T);break;
+	}
+	system("cls");
+	xianshi();
+	cin>>a;
+	}
+	cout<<"本次程序运行结束，再见"<<endl;
+	system("pause");
+	return 0;
+}
